@@ -6,6 +6,8 @@ const App = () => {
   const [targetColor, setTargetColor] = useState("");
   const [score, setScore] = useState(0);
   const [message, setMessage] = useState("Guess the correct color!");
+  const [fade, setFade] = useState(false);
+
 
   useEffect(() => {
     startNewGame();
@@ -20,10 +22,14 @@ const App = () => {
   const handleGuess = (color) => {
     if (color === targetColor) {
       setScore(score + 1);
+      setFade(true); 
       setMessage("Correct! 🎉");
       setTimeout(startNewGame, 1000);
+      setFade(false); 
     } else {
+      setFade(true); 
       setMessage("Wrong! Try again. ❌");
+      setFade(false); 
     }
   };
 
@@ -44,7 +50,7 @@ const App = () => {
           ></button>
         ))}
       </div>
-      <p data-testid="gameStatus">{message}</p>
+      <p data-testid="gameStatus" className={fade ? "fade-out" : ""}>{message}</p>
       <p data-testid="score">Score: {score}</p>
       <button data-testid="newGameButton" onClick={startNewGame} style={styles.newGameButton}>
         New Game
